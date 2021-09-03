@@ -11,7 +11,7 @@ export default function verifyToken(req, res, next) {
   const token = req.headers.authorization.split(" ")[1]
   try {
     const decoded = verify(token, process.env.SECRET_KEY)
-    req.body = decoded
+    req.body = { ...req.body, decoded }
   } catch (err) {
     return res.json({
       status: HTTP_UNAUTHORIZED,

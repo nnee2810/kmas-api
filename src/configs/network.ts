@@ -1,4 +1,8 @@
-const KMA_HOST = "http://qldt.actvn.edu.vn/CMCSoft.IU.Web.info",
-  HOST = "https://kmas.nnee.me"
+import axios from "axios"
+import { HOST_KMA } from "../defines/common"
 
-export { KMA_HOST, HOST }
+const API = axios.create({
+  baseURL: HOST_KMA,
+})
+
+export default API

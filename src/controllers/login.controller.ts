@@ -1,23 +1,49 @@
 import { Request, Response } from "express"
-import { HTTP_OK, HTTP_UNAUTHORIZED } from "../defines/common"
+import { HTTP_NOT_FOUND, HTTP_OK, HTTP_UNAUTHORIZED } from "../defines/common"
 import profile from "../test/profile"
 import generateToken from "../utils/generateToken"
+import loginHost from "../utils/loginHost"
 
 function postLogin(req: Request, res: Response) {
   const { username, password } = req.body
   if (username && password) {
-    const token = generateToken(username)
-
-    return res.json({
-      status: HTTP_OK,
-      message: "sign in successfully",
-      data: { token, profile },
+    loginHost({ username, password })
+      .then(() => {
+        const token = generateToken({ username })
+        res.json({
+          status: HTTP_OK,
+          message: "login successfully",
+          data: {
+            token,
+            profile,
+          },
+        })
+      })
+      .catch((err) => {
+        switch (err) {
+          case HTTP_UNAUTHORIZED: {
+            res.json({
+              status: HTTP_UNAUTHORIZED,
+              message: "username or password is incorrect",
+            })
+            break
+          }
+          case HTTP_NOT_FOUND: {
+            res.json({
+              status: HTTP_NOT_FOUND,
+              message: "kma not working",
+            })
+            break
+          }
+          default:
+            break
+        }
+      })
+  } else
+    res.json({
+      status: HTTP_UNAUTHORIZED,
+      message: "username or password is invalid",
     })
-  }
-  return res.json({
-    status: HTTP_UNAUTHORIZED,
-    message: "invalid username or password",
-  })
 }
 
 export { postLogin }
