@@ -15,8 +15,9 @@ const loginHost = async ({ username, password }) =>
       const data = (await API.post("/Login.aspx", formData)).data
       const $ = cheerio.load(data)
       const userFullName = $("#PageHeader1_lblUserFullName").text().toLowerCase()
+      const errorInfo = $("#lblErrorInfo").text()
 
-      if (userFullName === "khách") reject(HTTP_UNAUTHORIZED)
+      if (userFullName === "khách" || errorInfo) reject(HTTP_UNAUTHORIZED)
       else resolve(1)
     } catch (err) {
       reject(HTTP_NOT_FOUND)
