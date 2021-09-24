@@ -1,46 +1,37 @@
 import { Request, Response } from "express"
-import { HTTP_NOT_FOUND, HTTP_OK, HTTP_UNAUTHORIZED } from "../defines/common"
-import profile from "../test/profile"
+import { HTTP_OK, HTTP_SERVICE_UNAVAILABLE, HTTP_UNAUTHORIZED } from "../defines/common"
+import loginHost from "../helpers/loginHost"
 import generateToken from "../utils/generateToken"
-import loginHost from "../utils/loginHost"
 
 function postLogin(req: Request, res: Response) {
-  const { username, password } = req.body
-  if (username && password) {
-    loginHost({ username, password })
-      .then(() => {
-        const token = generateToken({ username })
-        res.json({
+  const { studentCode, password } = req.body
+  if (studentCode.length > 5 && password) {
+    loginHost({ studentCode, password })
+      .then((fullName) => {
+        const token = generateToken({ studentCode, fullName })
+        return res.json({
           status: HTTP_OK,
           message: "login successfully",
           data: {
             token,
-            profile,
+            profile: { studentCode, fullName },
           },
         })
       })
       .catch((err) => {
-        switch (err) {
-          case HTTP_UNAUTHORIZED: {
-            res.json({
-              status: HTTP_UNAUTHORIZED,
-              message: "username or password is incorrect",
-            })
-            break
-          }
-          case HTTP_NOT_FOUND: {
-            res.json({
-              status: HTTP_NOT_FOUND,
-              message: "kma not working",
-            })
-            break
-          }
-          default:
-            break
-        }
+        if (err === HTTP_UNAUTHORIZED)
+          return res.json({
+            status: HTTP_UNAUTHORIZED,
+            message: "username or password is invalid",
+          })
+        console.log(err)
+        return res.json({
+          status: HTTP_SERVICE_UNAVAILABLE,
+          message: "service is unavailable",
+        })
       })
   } else
-    res.json({
+    return res.json({
       status: HTTP_UNAUTHORIZED,
       message: "username or password is invalid",
     })

@@ -7,8 +7,9 @@ import loginRoute from "./routes/login.route"
 import profileRoute from "./routes/profile.route"
 
 config()
-const app = express()
+//connectDB()
 
+const app = express()
 app.use(
   cors({
     origin: ["http://localhost:3000", HOST],

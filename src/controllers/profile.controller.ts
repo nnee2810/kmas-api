@@ -3,8 +3,8 @@ import profile from "../test/profile"
 import generateToken from "../utils/generateToken"
 
 function profileGet(req, res) {
-  const { username } = req.body
-  const token = generateToken({ username })
+  const { studentCode } = req.body
+  const token = generateToken({ studentCode })
 
   return res.json({
     status: HTTP_OK,
