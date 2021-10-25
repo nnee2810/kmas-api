@@ -23,7 +23,7 @@ export default async function getSchedule() {
       })
     ).data
 
-    parseExcel(file)
+    return Promise.resolve(parseExcel(file))
   } catch (err) {
     return Promise.reject(err)
   }

@@ -19,11 +19,12 @@ const loginHost = async ({ studentCode, password }) => {
     const userFullName = $("#PageHeader1_lblUserFullName").text(),
       errorInfo = $("#lblErrorInfo").text()
 
-    if (userFullName === "Khách" || errorInfo) return Promise.reject(HTTP_UNAUTHORIZED)
+    if (userFullName === "Khách" || errorInfo)
+      return Promise.reject(HTTP_UNAUTHORIZED)
     else {
       const fullName = parseUserFullName(userFullName)
-      getSchedule()
-      return Promise.resolve(fullName)
+      const schedule = await getSchedule()
+      return Promise.resolve({ fullName, schedule })
     }
   } catch (err) {
     return Promise.reject(err)
