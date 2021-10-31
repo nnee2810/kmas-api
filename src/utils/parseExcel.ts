@@ -1,5 +1,6 @@
 import * as moment from "moment"
 import xlsx from "node-xlsx"
+import getLessonTime from "./getLessonTime"
 
 function getRangeRow(sheet: any) {
   const startRowIdx = sheet.findIndex((item: any) => item[0] === "Thứ") + 1
@@ -38,11 +39,10 @@ export default function parseExcel(file: ArrayBuffer) {
       schedule.push({
         subjectCode: sheet[i][1],
         subjectName: sheet[i][3],
-        class: sheet[i][4],
+        class: sheet[i][4].toString().split("(")[1].slice(0, -1),
         teacher: sheet[i][7],
-        lessons: String(sheet[i][8]).split(","),
         room: sheet[i][9],
-        date: e,
+        ...getLessonTime({ date: e, lessons: sheet[i][8] as string }),
       })
     })
   }
