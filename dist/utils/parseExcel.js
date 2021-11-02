@@ -29,13 +29,16 @@ function getAllDate(rangeDate, day) {
     }
     return result;
 }
+function getClass(arr) {
+    return arr[arr.length - 1].slice(0, -1);
+}
 function parseExcel(file) {
     let schedule = [];
     const sheet = node_xlsx_1.default.parse(file)[0].data;
     const { startRowIdx, endRowIdx } = getRangeRow(sheet);
     for (let i = startRowIdx; i < endRowIdx; i++) {
         getAllDate(String(sheet[i][10]), sheet[i][0]).forEach((e) => {
-            schedule.push(Object.assign({ subjectCode: sheet[i][1], subjectName: sheet[i][3], class: sheet[i][4].toString().split("(")[1].slice(0, -1), teacher: sheet[i][7], room: sheet[i][9] }, (0, getLessonTime_1.default)({ date: e, lessons: sheet[i][8] })));
+            schedule.push(Object.assign({ subjectCode: sheet[i][1], subjectName: sheet[i][3], class: getClass(sheet[i][4].toString().split("(")), teacher: sheet[i][7], room: sheet[i][9] }, (0, getLessonTime_1.default)({ date: e, lessons: sheet[i][8] })));
         });
     }
     return schedule;

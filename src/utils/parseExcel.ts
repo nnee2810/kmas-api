@@ -28,6 +28,9 @@ function getAllDate(rangeDate: any, day: any) {
   }
   return result
 }
+function getClass(arr: string[]) {
+  return arr[arr.length - 1].slice(0, -1)
+}
 
 export default function parseExcel(file: ArrayBuffer) {
   let schedule = []
@@ -39,7 +42,7 @@ export default function parseExcel(file: ArrayBuffer) {
       schedule.push({
         subjectCode: sheet[i][1],
         subjectName: sheet[i][3],
-        class: sheet[i][4].toString().split("(")[1].slice(0, -1),
+        class: getClass(sheet[i][4].toString().split("(")),
         teacher: sheet[i][7],
         room: sheet[i][9],
         ...getLessonTime({ date: e, lessons: sheet[i][8] as string }),
