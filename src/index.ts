@@ -14,6 +14,6 @@ app.use(
 app.use(express.json())
 app.use("/login", loginRoute)
 
-app.listen(process.env.PORT || 80, () =>
-  console.log("Server is running on port 80")
+app.listen(process.env.PORT, () =>
+  console.log("Server is running on port", process.env.PORT)
 )
