@@ -1,7 +1,6 @@
 import * as cors from "cors"
 import { config } from "dotenv"
 import * as express from "express"
-import { HOST } from "./defines/common"
 import loginRoute from "./routes/login.route"
 
 config()
@@ -9,7 +8,7 @@ config()
 const app = express()
 app.use(
   cors({
-    origin: ["http://localhost:3000", HOST],
+    origin: "*",
   })
 )
 app.use(express.json())
