@@ -1,9 +1,6 @@
 import * as cors from "cors"
-import { config } from "dotenv"
 import * as express from "express"
 import loginRoute from "./routes/login.route"
-
-config()
 
 const app = express()
 app.use(
