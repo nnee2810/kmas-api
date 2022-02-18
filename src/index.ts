@@ -9,6 +9,7 @@ app.use(
   })
 )
 app.use(express.json())
+app.get("/", (req, res) => res.send("Hello world"))
 app.use("/login", loginRoute)
 
 app.listen(process.env.PORT, () =>
