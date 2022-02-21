@@ -1,6 +1,6 @@
 import { IsString, MinLength } from "class-validator"
 
-export class GetScheduleDto {
+export class GetLessonsDto {
   @IsString()
   @MinLength(6)
   studentCode: string
