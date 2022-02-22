@@ -40,6 +40,7 @@ export class LessonsService {
         lessons,
       }
     } catch (error) {
+      if (error?.status === 401) throw new UnauthorizedException()
       throw new InternalServerErrorException()
     }
   }

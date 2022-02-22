@@ -11,9 +11,7 @@ export class LessonsController {
   @Post()
   async getLessons(@Body() body: GetLessonsDto): Promise<Response<ILessons>> {
     const data = await this.lessonsService.getLessons(body)
-
     if (!data) throw new UnauthorizedException()
-
     return successResponse(data)
   }
 }

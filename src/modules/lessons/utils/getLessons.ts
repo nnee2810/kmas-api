@@ -26,6 +26,7 @@ export async function getLessons(): Promise<ILesson[]> {
 
     return parseExcelFile(file)
   } catch (error) {
+    console.log(error)
     throw new InternalServerErrorException()
   }
 }
