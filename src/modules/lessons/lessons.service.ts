@@ -7,15 +7,15 @@ import * as cheer from "cheerio"
 import * as qs from "query-string"
 import { KMA_API } from "src/configs/network"
 import { GetLessonsDto } from "./dto/get-lessons.dto"
-import { ILessons } from "./interfaces/ILessons"
+import { Student } from "./interfaces/Student"
 import { getLessons } from "./utils/getLessons"
 
 @Injectable()
 export class LessonsService {
-  async getLessons({
+  async getLessonsByCredential({
     studentCode,
     password,
-  }: GetLessonsDto): Promise<ILessons> {
+  }: GetLessonsDto): Promise<Student> {
     const formData = qs.stringify({
       txtUserName: studentCode,
       txtPassword: password,
@@ -28,19 +28,16 @@ export class LessonsService {
         errorInfo = $("#lblErrorInfo").text()
 
       if (userFullName === "Khách" || errorInfo)
-        throw new UnauthorizedException()
+        throw new UnauthorizedException(
+          "Tài khoản hoặc mật khẩu không chính xác",
+        )
 
-      const fullName = userFullName.split("(")[0],
-        lessons = await getLessons()
-      return {
-        profile: {
-          fullName,
-          studentCode,
-        },
-        lessons,
-      }
+      return await getLessons()
     } catch (error) {
-      if (error?.status === 401) throw new UnauthorizedException()
+      if (error?.status === 401)
+        throw new UnauthorizedException(
+          "Tài khoản hoặc mật khẩu không chính xác",
+        )
       throw new InternalServerErrorException()
     }
   }

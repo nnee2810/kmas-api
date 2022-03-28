@@ -1,10 +1,18 @@
-import { IsString, MinLength } from "class-validator"
+import { IsString, MinLength, ValidateIf } from "class-validator"
 
 export class GetLessonsDto {
   @IsString()
-  @MinLength(6)
-  studentCode: string
+  method: "credential" | "excel" | "source"
 
+  @ValidateIf((i) => i.method === "credential")
   @IsString()
-  password: string
+  @MinLength(6)
+  studentCode?: string
+
+  @ValidateIf((i) => i.method === "credential")
+  @IsString()
+  password?: string
+
+  @ValidateIf((i) => i.method === "excel")
+  excel?: Express.Multer.File
 }

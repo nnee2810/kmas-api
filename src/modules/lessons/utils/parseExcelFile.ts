@@ -1,144 +1,104 @@
+import { InternalServerErrorException } from "@nestjs/common"
 import * as moment from "moment"
 import xlsx from "node-xlsx"
-import { ILesson } from "../interfaces/ILesson"
+import { Lesson } from "../interfaces/Lesson"
+import { Student } from "../interfaces/Student"
 
-const time = [
+const shiftTime = [
   [
-    [7, 0],
-    [7, 45],
+    ["07", "00"],
+    ["09", "25"],
   ],
+
   [
-    [7, 50],
-    [8, 35],
+    ["09", "35"],
+    ["12", "00"],
   ],
+
   [
-    [8, 49],
-    [9, 25],
+    ["12", "30"],
+    ["14", "55"],
   ],
+
   [
-    [9, 35],
-    [10, 20],
+    ["15", "05"],
+    ["17", "30"],
   ],
+
   [
-    [10, 25],
-    [11, 10],
-  ],
-  [
-    [11, 15],
-    [12, 0],
-  ],
-  [
-    [12, 30],
-    [13, 15],
-  ],
-  [
-    [13, 20],
-    [14, 5],
-  ],
-  [
-    [14, 10],
-    [14, 55],
-  ],
-  [
-    [15, 5],
-    [15, 50],
-  ],
-  [
-    [15, 55],
-    [16, 40],
-  ],
-  [
-    [16, 45],
-    [17, 30],
-  ],
-  [
-    [18, 0],
-    [18, 45],
-  ],
-  [
-    [18, 50],
-    [18, 45],
-  ],
-  [
-    [18, 50],
-    [19, 45],
-  ],
-  [
-    [19, 50],
-    [20, 35],
+    ["18", "00"],
+    ["20", "35"],
   ],
 ]
 
-export default function parseLessonTime({
-  date,
-  lessons,
-}: {
-  date: string
-  lessons: string
-}) {
-  const lessonsArr = lessons.split(",").map((item: string) => +item),
-    current = moment(date)
+export function parseLessonTime(date: string, shifts: string) {
+  const shiftList = shifts.split(",").map((item: string) => +item)
+  const [startAt, endAt] = shiftTime[(shiftList[0] - 1) / 3].map((time) =>
+    time.join(":"),
+  )
 
   return {
-    startAt: current
-      .set({
-        h: time[lessonsArr[0] - 1][0][0],
-        m: time[lessonsArr[0] - 1][0][1],
-      })
-      .toDate(),
-    endAt: current
-      .set({
-        h: time[lessonsArr[lessonsArr.length - 1] - 1][1][0],
-        m: time[lessonsArr[lessonsArr.length - 1] - 1][1][1],
-      })
-      .toDate(),
+    date: moment(date).toISOString(),
+    startAt,
+    endAt,
   }
 }
-function getRangeRow(sheet: any) {
+function getLessonRows(sheet: unknown[]) {
   const startRowIdx = sheet.findIndex((item: any) => item[0] === "Thứ") + 1
   for (let i = startRowIdx; i < sheet.length; i++) {
-    if (!sheet[i][0]) {
+    if (!sheet[i][0])
       return {
         startRowIdx,
         endRowIdx: i - 1,
       }
-    }
   }
 }
-function getAllDate(rangeDate: any, day: any): string[] {
-  let result = []
-  let [startDate, endDate] = rangeDate
+function getAllDate(rangeDate: string, day: string): string[] {
+  const result: string[] = []
+  const [startDate, endDate] = rangeDate
     .split("-")
     .map((item) => item.split("/").reverse().join("-"))
   let timeLine = moment(startDate)
-    .add(day - 2, "d")
+    .add(+day - 2, "d")
     .unix()
-  endDate = moment(endDate).unix()
-  while (timeLine <= endDate) {
+
+  let endTime = moment(endDate).unix()
+  while (timeLine <= endTime) {
     result.push(moment(timeLine * 1000).toISOString())
     timeLine += 7 * 24 * 60 * 60
   }
   return result
 }
-function parseClass(arr: string[]) {
-  return arr[arr.length - 1].slice(0, -1)
+function parseClassName(className: string) {
+  return className.split("(")[1].slice(0, -1)
 }
-export function parseExcelFile(file: ArrayBuffer): ILesson[] {
-  let lessons: ILesson[] = []
-  const sheet = xlsx.parse(file)[0].data
-  const { startRowIdx, endRowIdx } = getRangeRow(sheet)
+export function parseExcelFile(file: ArrayBuffer): Student {
+  try {
+    const sheet = xlsx.parse(file)[0].data
+    const { startRowIdx, endRowIdx } = getLessonRows(sheet)
 
-  for (let i = startRowIdx; i < endRowIdx; i++) {
-    getAllDate(String(sheet[i][10]), sheet[i][0]).forEach((e) => {
-      lessons.push({
-        subjectCode: sheet[i][1],
-        subjectName: sheet[i][3],
-        class: parseClass(sheet[i][4].toString().split("(")),
-        teacher: sheet[i][7],
-        room: sheet[i][9],
-        ...parseLessonTime({ date: e, lessons: sheet[i][8] as string }),
+    const lessons: Lesson[] = []
+    for (let i = startRowIdx; i <= endRowIdx; i++) {
+      getAllDate(String(sheet[i][10]), sheet[i][0]).forEach((date) => {
+        lessons.push({
+          subjectCode: sheet[i][1],
+          subjectName: sheet[i][3],
+          className: parseClassName(sheet[i][4] as string),
+          teacher: sheet[i][7],
+          room: sheet[i][9],
+          ...parseLessonTime(date, sheet[i][8] as string),
+        })
       })
-    })
+    }
+
+    return {
+      profile: {
+        fullName: sheet[5][2],
+        studentCode: sheet[5][5],
+      },
+      lessons,
+    }
+  } catch (error) {
+    throw new InternalServerErrorException("Không thể đọc file này")
   }
-  return lessons
 }

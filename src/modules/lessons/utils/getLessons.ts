@@ -2,10 +2,10 @@ import { InternalServerErrorException } from "@nestjs/common"
 import * as cheer from "cheerio"
 import * as qs from "query-string"
 import { KMA_API } from "src/configs/network"
-import { ILesson } from "../interfaces/ILesson"
+import { Student } from "../interfaces/Student"
 import { parseExcelFile } from "./parseExcelFile"
 
-export async function getLessons(): Promise<ILesson[]> {
+export async function getLessons(): Promise<Student> {
   try {
     const $ = cheer.load(
       (await KMA_API.get("/Reports/Form/StudentTimeTable.aspx")).data,
