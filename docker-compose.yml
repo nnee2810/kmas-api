@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  kmas-api:
+    build: .
+    container_name: kmas-api
+    image: kmas-api:1.0
+    ports:
+      - 80:${PORT}

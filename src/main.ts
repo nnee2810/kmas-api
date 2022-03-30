@@ -11,8 +11,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
   app.useGlobalInterceptors(new TransformInterceptor())
 
-  await app.listen(process.env.PORT, () =>
-    console.log("Server is running on port", process.env.PORT),
-  )
+  await app.listen(process.env.PORT)
 }
 bootstrap()
