@@ -2,7 +2,7 @@ import { ValidationPipe } from "@nestjs/common"
 import { HttpsOptions } from "@nestjs/common/interfaces/external/https-options.interface"
 import { NestFactory } from "@nestjs/core"
 import "dotenv/config"
-import fs from "fs"
+import * as fs from "fs"
 import { AppModule } from "./app.module"
 
 const httpsOptions: HttpsOptions = {
