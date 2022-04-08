@@ -8,7 +8,6 @@ import {
 } from "@nestjs/common"
 import { FileInterceptor } from "@nestjs/platform-express"
 import { excelFileFilter } from "src/utils/excelFileFilter"
-import { Response, successResponse } from "src/utils/response"
 import { GetLessonsDto } from "./dto/get-lessons.dto"
 import { Student } from "./interfaces/Student"
 import { LessonsService } from "./lessons.service"
@@ -27,7 +26,7 @@ export class LessonsController {
   async getLessons(
     @Body() body: GetLessonsDto,
     @UploadedFile() excel: Express.Multer.File,
-  ): Promise<Response<Student>> {
+  ): Promise<Student> {
     let data: Student
 
     switch (body.method) {
@@ -42,6 +41,6 @@ export class LessonsController {
     }
 
     if (!data) throw new UnauthorizedException()
-    return successResponse(data)
+    return data
   }
 }

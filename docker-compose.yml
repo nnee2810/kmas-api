@@ -5,5 +5,4 @@ services:
     container_name: kmas-api
     image: kmas-api:1.0
     ports:
-      - 80:${PORT}
       - 443:${PORT}
