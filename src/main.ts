@@ -11,7 +11,7 @@ const httpsOptions: HttpsOptions = {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { httpsOptions })
+  const app = await NestFactory.create(AppModule)
 
   app.enableCors()
   app.useGlobalPipes(new ValidationPipe())
