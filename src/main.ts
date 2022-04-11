@@ -4,6 +4,7 @@ import { NestFactory } from "@nestjs/core"
 import "dotenv/config"
 import * as fs from "fs"
 import { AppModule } from "./app.module"
+import { TransformInterceptor } from "./interceptors/transform.interceptor"
 
 const httpsOptions: HttpsOptions = {
   cert: fs.readFileSync("./ssl/certificate.crt"),
@@ -15,6 +16,7 @@ async function bootstrap() {
 
   app.enableCors()
   app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalInterceptors(new TransformInterceptor())
 
   await app.listen(process.env.PORT)
 }
