@@ -10,6 +10,4 @@ RUN yarn build
 
 FROM nginx:stable-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
 CMD ["yarn", "start:prod"]
