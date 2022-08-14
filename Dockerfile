@@ -1,4 +1,4 @@
-FROM node:lts-alpine as build
+FROM node:lts-alpine
 
 WORKDIR /app
 
@@ -7,7 +7,5 @@ RUN yarn
 
 COPY . .
 RUN yarn build
-
-FROM nginx:stable-alpine
 
 CMD ["yarn", "start:prod"]

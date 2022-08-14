@@ -3,48 +3,6 @@ services:
   service:
     build: .
     container_name: service
-    image: service
-    restart: unless-stopped
-    networks:
-      - service-network
-
-  nginx:
-    image: nginx:mainline-alpine
-    container_name: nginx
-    restart: unless-stopped
+    image: service:1.0
     ports:
-      - "80:80"
-    volumes:
-      - web-root:/var/www/html
-      - ./nginx-conf:/etc/nginx/conf.d
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-    depends_on:
-      - service
-    networks:
-      - service-network
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - web-root:/var/www/html
-    depends_on:
-      - nginx
-    command: certonly --webroot --webroot-path=/var/www/html --email dvn281002@gmail.com --agree-tos --no-eff-email --staging -d nnee.dev -d www.nnee.dev
-
-volumes:
-  certbot-etc:
-  certbot-var:
-  web-root:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/sammy/node_project/views/
-      o: bind
-
-networks:
-  service-network:
-    driver: bridge
+      - 80:${PORT}
