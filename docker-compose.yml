@@ -4,5 +4,3 @@ services:
     build: .
     container_name: service
     image: service:1.0
-    ports:
-      - 443:${PORT}
