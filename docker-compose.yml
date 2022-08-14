@@ -5,4 +5,4 @@ services:
     container_name: service
     image: service:1.0
     ports:
-      - 80:${PORT}
+      - 443:${PORT}
