@@ -8,8 +8,9 @@ import { TransformInterceptor } from "./interceptors/transform.interceptor"
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     httpsOptions: {
-      key: fs.readFileSync(__dirname + "/../ssl/private.key"),
+      ca: fs.readFileSync(__dirname + "/../ssl/ca_bundle.crt"),
       cert: fs.readFileSync(__dirname + "/../ssl/certificate.crt"),
+      key: fs.readFileSync(__dirname + "/../ssl/private.key"),
     },
   })
 
