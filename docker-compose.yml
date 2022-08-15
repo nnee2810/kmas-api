@@ -3,18 +3,4 @@ services:
   service:
     build: .
     ports:
-      - "5000:5000"
-    networks:
-      - service_network
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-    depends_on:
-      - service
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - service_network
-networks:
-  service_network:
+      - "80:5000"
