@@ -3,23 +3,6 @@ services:
   service:
     build: .
     container_name: service
-    restart: unless-stopped
-    networks:
-      - service-network
-  nginx:
-    image: nginx:mainline-alpine
-    container_name: nginx
-    restart: unless-stopped
+    image: service
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - service
-    networks:
-      - service-network
-
-networks:
-  service-network:
-    driver: bridge
+      - 443:${PORT}
