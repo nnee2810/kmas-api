@@ -2,7 +2,6 @@ version: "3.8"
 services:
   service:
     build: .
-    image: service
     container_name: service
     restart: unless-stopped
     networks:
@@ -23,15 +22,15 @@ services:
     networks:
       - service-network
   certbot:
-  image: certbot/certbot
-  container_name: certbot
-  volumes:
-    - certbot-etc:/etc/letsencrypt
-    - certbot-var:/var/lib/letsencrypt
-    - web-root:/var/www/html
-  depends_on:
-    - webserver
-  command: certonly --webroot --webroot-path=/var/www/html --email dvn281002@gmail.com --agree-tos --no-eff-email --staging -d kmas-api.nnee.dev
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/html --email dvn281002@gmail.com --agree-tos --no-eff-email --staging -d kmas-api.nnee.dev
 volumes:
   certbot-etc:
   certbot-var:
