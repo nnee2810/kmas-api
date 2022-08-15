@@ -2,6 +2,7 @@ version: "3.8"
 services:
   service:
     build: .
+    image: service
     container_name: service
     restart: unless-stopped
     networks:
