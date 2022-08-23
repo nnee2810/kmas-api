@@ -1,5 +1,5 @@
 {
-  "name": "kmas-api-2",
+  "name": "kmas-service",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "env-cmd -f .env nest build",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "env-cmd -f .env && nest start",
     "start:dev": "env-cmd -f .env nest start --watch",
