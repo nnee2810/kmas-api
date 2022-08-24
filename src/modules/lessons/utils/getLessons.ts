@@ -1,14 +1,14 @@
 import { InternalServerErrorException } from "@nestjs/common"
 import * as cheer from "cheerio"
 import * as qs from "query-string"
-import { KMA_URL } from "src/configs/network"
+import { KMA_API } from "src/configs/network"
 import { Student } from "../interfaces/Student"
 import { parseExcelFile } from "./parseExcelFile"
 
 export async function getLessons(): Promise<Student> {
   try {
     const $ = cheer.load(
-      (await KMA_URL.get("/Reports/Form/StudentTimeTable.aspx")).data,
+      (await KMA_API.get("/Reports/Form/StudentTimeTable.aspx")).data,
     )
     const formData = qs.stringify({
       drpSemester: $("#drpSemester").val(),
@@ -19,7 +19,7 @@ export async function getLessons(): Promise<Student> {
     })
 
     const file = (
-      await KMA_URL.post("/Reports/Form/StudentTimeTable.aspx", formData, {
+      await KMA_API.post("/Reports/Form/StudentTimeTable.aspx", formData, {
         responseType: "arraybuffer",
       })
     ).data

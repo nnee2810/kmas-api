@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common"
 import * as cheer from "cheerio"
 import * as qs from "query-string"
-import { KMA_URL } from "src/configs/network"
+import { KMA_API } from "src/configs/network"
 import { GetLessonsDto } from "./dto/get-lessons.dto"
 import { Student } from "./interfaces/Student"
 import { getLessons } from "./utils/getLessons"
@@ -23,7 +23,7 @@ export class LessonsService {
       __EVENTTARGET: "",
     })
     try {
-      const $ = cheer.load((await KMA_URL.post("/Login.aspx", formData)).data)
+      const $ = cheer.load((await KMA_API.post("/Login.aspx", formData)).data)
       const userFullName = $("#PageHeader1_lblUserFullName").text(),
         errorInfo = $("#lblErrorInfo").text()
 
