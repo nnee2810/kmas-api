@@ -1,4 +1,3 @@
-import { InternalServerErrorException } from "@nestjs/common"
 import * as moment from "moment"
 import xlsx from "node-xlsx"
 import { Lesson } from "../interfaces/Lesson"
@@ -73,32 +72,28 @@ function parseClassName(className: string) {
   return className.split("(")[1].slice(0, -1)
 }
 export function parseExcelFile(file: ArrayBuffer): Student {
-  try {
-    const sheet = xlsx.parse(file)[0].data
-    const { startRowIdx, endRowIdx } = getLessonRows(sheet)
+  const sheet = xlsx.parse(file)[0].data
+  const { startRowIdx, endRowIdx } = getLessonRows(sheet)
 
-    const lessons: Lesson[] = []
-    for (let i = startRowIdx; i <= endRowIdx; i++) {
-      getAllDate(String(sheet[i][10]), sheet[i][0]).forEach((date) => {
-        lessons.push({
-          subjectCode: sheet[i][1],
-          subjectName: sheet[i][3],
-          className: parseClassName(sheet[i][4] as string),
-          teacher: sheet[i][7],
-          room: sheet[i][9],
-          ...parseLessonTime(date, sheet[i][8] as string),
-        })
+  const lessons: Lesson[] = []
+  for (let i = startRowIdx; i <= endRowIdx; i++) {
+    getAllDate(String(sheet[i][10]), sheet[i][0]).forEach((date) => {
+      lessons.push({
+        subjectCode: sheet[i][1],
+        subjectName: sheet[i][3],
+        className: parseClassName(sheet[i][4] as string),
+        teacher: sheet[i][7],
+        room: sheet[i][9],
+        ...parseLessonTime(date, sheet[i][8] as string),
       })
-    }
+    })
+  }
 
-    return {
-      profile: {
-        fullName: sheet[5][2],
-        studentCode: sheet[5][5],
-      },
-      lessons,
-    }
-  } catch (error) {
-    throw new InternalServerErrorException("Không thể đọc file này")
+  return {
+    profile: {
+      fullName: sheet[5][2],
+      studentCode: sheet[5][5],
+    },
+    lessons,
   }
 }
