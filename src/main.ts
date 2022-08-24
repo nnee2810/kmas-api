@@ -1,6 +1,5 @@
 import { ValidationPipe } from "@nestjs/common"
 import { NestFactory } from "@nestjs/core"
-import "dotenv/config"
 import * as fs from "fs"
 import { AppModule } from "./app.module"
 import { TransformInterceptor } from "./interceptors/transform.interceptor"
@@ -8,8 +7,8 @@ import { TransformInterceptor } from "./interceptors/transform.interceptor"
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     httpsOptions: {
-      key: fs.readFileSync("ssl/private.key"),
-      cert: fs.readFileSync("ssl/certificate.crt"),
+      key: fs.readFileSync(process.env.SSL_KEY_PATH),
+      cert: fs.readFileSync(process.env.SSL_CERT_PATH),
     },
   })
 
