@@ -1,4 +1,3 @@
-import { InternalServerErrorException } from "@nestjs/common"
 import * as cheer from "cheerio"
 import * as qs from "query-string"
 import { KMA_API } from "src/configs/network"
@@ -6,29 +5,24 @@ import { Student } from "../interfaces/Student"
 import { parseExcelFile } from "./parseExcelFile"
 
 export async function getLessons(): Promise<Student> {
-  try {
-    const $ = cheer.load(
-      (await KMA_API.get("/Reports/Form/StudentTimeTable.aspx")).data,
-    )
-    const formData = qs.stringify({
-      drpSemester: $("#drpSemester").val(),
-      drpTerm: $("#drpTerm").val(),
-      drpType: "B",
-      btnView: "Xuất file Excel",
-      ...parseHiddenInput($),
+  const $ = cheer.load(
+    (await KMA_API.get("/Reports/Form/StudentTimeTable.aspx")).data,
+  )
+  const formData = qs.stringify({
+    drpSemester: $("#drpSemester").val(),
+    drpTerm: $("#drpTerm").val(),
+    drpType: "B",
+    btnView: "Xuất file Excel",
+    ...parseHiddenInput($),
+  })
+
+  const file = (
+    await KMA_API.post("/Reports/Form/StudentTimeTable.aspx", formData, {
+      responseType: "arraybuffer",
     })
+  ).data
 
-    const file = (
-      await KMA_API.post("/Reports/Form/StudentTimeTable.aspx", formData, {
-        responseType: "arraybuffer",
-      })
-    ).data
-
-    return parseExcelFile(file)
-  } catch (error) {
-    console.log(error)
-    throw new InternalServerErrorException()
-  }
+  return parseExcelFile(file)
 }
 function parseHiddenInput($: cheer.CheerioAPI) {
   const result = {},

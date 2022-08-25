@@ -1,7 +1,7 @@
 # build stage
 FROM node:18.7-alpine AS build
 
-WORKDIR /service
+WORKDIR /app
 
 COPY package*.json .
 
@@ -14,10 +14,10 @@ RUN yarn build
 # production stage
 FROM node:18.7-alpine
 
-WORKDIR /service
+WORKDIR /app
 
-COPY --from=build /service/node_modules /node_modules
-COPY --from=build /service/dist /dist
+COPY --from=build /app/node_modules /node_modules
+COPY --from=build /app/dist /dist
 COPY /ssl /ssl
 COPY .prod.env package.json /
 

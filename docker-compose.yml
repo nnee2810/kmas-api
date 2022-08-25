@@ -5,3 +5,7 @@ services:
     restart: always
     ports:
       - "443:5000"
+    volumes:
+      - app-data:/app/error.log
+volumes:
+  app-data:

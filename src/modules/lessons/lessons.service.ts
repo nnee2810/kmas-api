@@ -1,7 +1,8 @@
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
-  UnauthorizedException,
+  Logger,
 } from "@nestjs/common"
 import * as cheer from "cheerio"
 import * as qs from "query-string"
@@ -12,6 +13,11 @@ import { getLessons } from "./utils/getLessons"
 
 @Injectable()
 export class LessonsService {
+  constructor(
+    @Inject("winston")
+    private logger: Logger,
+  ) {}
+
   async getLessonsByCredential({
     studentCode,
     password,
@@ -27,17 +33,10 @@ export class LessonsService {
       const userFullName = $("#PageHeader1_lblUserFullName").text(),
         errorInfo = $("#lblErrorInfo").text()
 
-      if (userFullName === "Khách" || errorInfo)
-        throw new UnauthorizedException(
-          "Tài khoản hoặc mật khẩu không chính xác",
-        )
-
+      if (userFullName === "Khách" || errorInfo) throw "dadasds"
       return await getLessons()
     } catch (error) {
-      if (error?.status === 401)
-        throw new UnauthorizedException(
-          "Tài khoản hoặc mật khẩu không chính xác",
-        )
+      this.logger.error(error)
       throw new InternalServerErrorException()
     }
   }

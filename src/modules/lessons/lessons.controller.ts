@@ -10,7 +10,8 @@ export class LessonsController {
   @Post()
   async getLessons(@Body() body: GetLessonsDto): Promise<Student> {
     const student = await this.lessonsService.getLessonsByCredential(body)
-    if (!student) throw new UnauthorizedException()
+    if (!student)
+      throw new UnauthorizedException("Tài khoản hoặc mật khẩu không chính xác")
     return student
   }
 }
