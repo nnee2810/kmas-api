@@ -33,7 +33,7 @@ export class LessonsService {
       const userFullName = $("#PageHeader1_lblUserFullName").text(),
         errorInfo = $("#lblErrorInfo").text()
 
-      if (userFullName === "Khách" || errorInfo) throw "dadasds"
+      if (userFullName === "Khách" || errorInfo) return
       return await getLessons()
     } catch (error) {
       this.logger.error(error)
