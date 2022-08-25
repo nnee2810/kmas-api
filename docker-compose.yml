@@ -6,6 +6,6 @@ services:
     ports:
       - "443:5000"
     volumes:
-      - app-data:/app/error.log
+      - app-logs:/logs
 volumes:
-  app-data:
+  app-logs:
