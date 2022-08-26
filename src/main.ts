@@ -12,7 +12,9 @@ async function bootstrap() {
       key: fs.readFileSync(process.env.SSL_KEY_PATH),
       cert: fs.readFileSync(process.env.SSL_CERT_PATH),
     },
-    cors: true,
+    cors: {
+      origin: ["localhost:3000", "kmas.nnee.dev"],
+    },
   })
 
   app.use(cookieParser())
