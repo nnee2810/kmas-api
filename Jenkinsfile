@@ -8,11 +8,11 @@ pipeline {
     AWS_ECR_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_ECR_REGION}.amazonaws.com"
     AWS_ECR_IMAGE_URI="${AWS_ECR_URI}/${IMAGE_NAME}:${IMAGE_TAG}"
   }
-  stages("Init") {
-    def dockerHome = tool "docker"
-    env.PATH = "${dockerHome}/bin:${env.PATH}" 
-  }
   stages {
+    stage("Init") {
+      def dockerHome = tool "docker"
+      env.PATH = "${dockerHome}/bin:${env.PATH}" 
+    }
     stage("Login AWS") {
       steps {
         script {
