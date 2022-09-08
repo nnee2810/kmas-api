@@ -12,3 +12,16 @@ workflows:
           region: $AWS_REGION
           registry-id: AWS_REGISTRY_ID
           repo: $AWS_REPO_NAME
+  deploy:
+    jobs:
+      requires:
+        - build_and_push_image
+      steps:
+         - run:
+          name: The First Step
+          command: |
+            echo 'Hello World!'
+            echo 'This is the delivery pipeline'
+        - run:
+          name: The Second Step
+          command: echo 'test test'
