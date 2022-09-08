@@ -17,7 +17,7 @@ workflows:
       requires:
         - build_and_push_image
       steps:
-         - run:
+        - run:
           name: The First Step
           command: |
             echo 'Hello World!'
