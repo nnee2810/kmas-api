@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent {
+    docker { image 'node:16.13.1-alpine' }
+  }
   environment {
     AWS_ACCOUNT_ID="526510891582"
     AWS_ECR_REGION="ap-southeast-1"
@@ -8,13 +10,8 @@ pipeline {
     AWS_ECR_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_ECR_REGION}.amazonaws.com"
     AWS_ECR_IMAGE_URI="${AWS_ECR_URI}/${IMAGE_NAME}:${IMAGE_TAG}"
   }
+  
   stages {
-    stage("Init") {
-      steps {
-        def dockerHome = tool "docker"
-        env.PATH = "${dockerHome}/bin:${env.PATH}" 
-      }
-    }
     stage("Login AWS") {
       steps {
         script {
