@@ -2,10 +2,13 @@ pipeline {
   agent any
   environment {
     AWS_ACCOUNT_ID="526510891582"
-    AWS_ECR_REGION="ap-southeast-1"
+    AWS_USER_NAME="kmas-service"
+    AWS_ACCESS_KEY_ID="AKIAXVFT6UI7NM4YVHWB"
+    AWS_SECRET_ACCESS_KEY="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"
+    AWS_REGION="ap-southeast-1"
     IMAGE_NAME="kmas-service"
     IMAGE_TAG="latest"
-    AWS_ECR_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_ECR_REGION}.amazonaws.com"
+    AWS_ECR_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
     AWS_ECR_IMAGE_URI="${AWS_ECR_URI}/${IMAGE_NAME}:${IMAGE_TAG}"
   }
   
@@ -13,7 +16,11 @@ pipeline {
     stage("Login AWS") {
       steps {
         script {
-          sh "aws ecr get-login-password --region ${AWS_ECR_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_URI}"
+          sh "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}"
+          sh "aws configure set aws_secret_access_key  ${AWS_SECRET_ACCESS_KEY}"
+          sh "aws configure set region ${AWS_REGION}"
+          sh "aws configure set output json"
+          sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_URI}"
         }
       }
     }
