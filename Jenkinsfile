@@ -20,7 +20,7 @@ pipeline {
           sh "aws configure set aws_secret_access_key  ${AWS_SECRET_ACCESS_KEY}"
           sh "aws configure set region ${AWS_REGION}"
           sh "aws configure set output json"
-          sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_URI}"
+          sh "aws ecr get-login-password --region ${AWS_REGION} | sudo docker login --username AWS --password-stdin ${AWS_ECR_URI}"
         }
       }
     }
