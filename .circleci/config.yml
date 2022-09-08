@@ -1,0 +1,15 @@
+version: 2.1
+
+jobs:
+  build:
+    steps:
+      - run: echo "Building"
+  deploy:
+    steps:
+      - run: echo "Deploying"
+
+workflows:
+  kmas-service:
+    jobs:
+      - build
+      - deploy
