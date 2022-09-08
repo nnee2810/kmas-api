@@ -8,9 +8,10 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
+      - checkout
       - run:
-        name: test
-        command: echo "testesdasdasd"
+          name: test ci
+          command: echo "test ci"
 
 workflows:
   build_and_push_image:
