@@ -1,15 +1,14 @@
 version: 2.1
 
-jobs:
-  build:
-    steps:
-      - run: echo "Building"
-  deploy:
-    steps:
-      - run: echo "Deploying"
+orbs:
+  aws-ecr: circleci/aws-ecr@8.1.2
 
 workflows:
-  kmas-service:
+  build_and_push_image:
     jobs:
-      - build
-      - deploy
+      - aws-ecr/build-and-push-image:
+          aws-access-key-id: $AWS_ACCESS_KEY_ID
+          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          region: $AWS_REGION
+          registry-id: $AWS_REGISTRY_ID
+          repo: $AWS_REPO_NAME
