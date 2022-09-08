@@ -10,8 +10,10 @@ pipeline {
   }
   stages {
     stage("Init") {
-      def dockerHome = tool "docker"
-      env.PATH = "${dockerHome}/bin:${env.PATH}" 
+      step {
+        def dockerHome = tool "docker"
+        env.PATH = "${dockerHome}/bin:${env.PATH}" 
+      }
     }
     stage("Login AWS") {
       steps {
