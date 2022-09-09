@@ -21,7 +21,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - $AWS_EC2_FINGERPRINTS
-      - run: ssh $AWS_EC2_USER@$AWS_EC2_IP cd kmas-service && chmod +x && ./deploy.sh
+      - run: ssh $AWS_EC2_USER@$AWS_EC2_IP cd kmas-service && chmod +x ./deploy.sh && ./deploy.sh
 
 workflows:
   kmas-service:
