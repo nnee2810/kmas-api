@@ -22,7 +22,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - 37:71:71:a7:be:4f:9b:01:9f:b7:9d:08:eb:fb:ae:04
-      - run: ssh $VPS_USER@$VPS_IP deploy.sh
+      - run: ssh $VPS_USER@$VPS_IP ./deploy.sh
 
 workflows:
   kmas-service:
