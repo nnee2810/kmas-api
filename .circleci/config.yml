@@ -21,7 +21,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - $AWS_EC2_FINGERPRINTS
-      - run: ssh $AWS_EC2_USER@$AWS_EC2_IP cd kmas-service && aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_REGISTRY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com && docker-compose down && docker-compose pull && docker-compose up -d
+      - run: ssh $AWS_EC2_USER@$AWS_EC2_IP cd kmas-service && ./deploy.sh
 
 workflows:
   kmas-service:
