@@ -27,4 +27,7 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - deploy
+      - build
+      - deploy:
+          requires:
+            - build
