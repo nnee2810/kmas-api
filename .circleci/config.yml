@@ -15,7 +15,7 @@ jobs:
           registry-id: AWS_REGISTRY_ID
           repo: $AWS_REPO_NAME
   deploy:
-    machine: true
+    executor: docker/docker
     steps:
       - checkout
       - add_ssh_keys:
@@ -24,7 +24,7 @@ jobs:
       - run: ssh $AWS_EC2_USER@$AWS_EC2_IP cd kmas-service && chmod +x ./deploy.sh && ./deploy.sh
 
 workflows:
-  kmas-service:
+  build-and-deploy:
     jobs:
       - build
       - deploy:
