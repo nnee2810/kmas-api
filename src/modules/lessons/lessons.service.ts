@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from "@nestjs/common"
+import { Injectable, InternalServerErrorException } from "@nestjs/common"
 import * as cheer from "cheerio"
 import * as qs from "query-string"
 import { KMA_API } from "src/configs/network"
@@ -13,11 +8,6 @@ import { getLessons } from "./utils/getLessons"
 
 @Injectable()
 export class LessonsService {
-  constructor(
-    @Inject("winston")
-    private logger: Logger,
-  ) {}
-
   async getLessonsByCredential({
     studentCode,
     password,
@@ -36,7 +26,6 @@ export class LessonsService {
       if (userFullName === "Khách" || errorInfo) return
       return await getLessons()
     } catch (error) {
-      this.logger.error(error)
       throw new InternalServerErrorException()
     }
   }
