@@ -21,7 +21,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - $VPS_FINGERPRINTS
-      - run: ssh $VPS_USER@$VPS_IP cd kmas-service && deploy.sh
+      - run: ssh $VPS_USER@$VPS_IP cd kmas-service && docker-compose down && docker-compose pull && docker-compose up -d
 
 workflows:
   kmas-service:
