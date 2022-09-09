@@ -4,7 +4,7 @@ orbs:
   aws-ecr: circleci/aws-ecr@8.1.2
 
 jobs:
-  build-push:
+  build:
     executor: aws-ecr/default
     steps:
       - checkout
@@ -26,7 +26,7 @@ jobs:
 workflows:
   kmas-service:
     jobs:
-      - build-push
+      - build
       - deploy:
           requires:
-            - build-push
+            - build
