@@ -4,7 +4,7 @@ orbs:
   aws-ecr: circleci/aws-ecr@8.1.2
 
 jobs:
-  build-and-push-image:
+  build-push:
     executor: aws-ecr/default
     steps:
       - checkout
@@ -14,8 +14,20 @@ jobs:
           region: $AWS_REGION
           registry-id: AWS_REGISTRY_ID
           repo: $AWS_REPO_NAME
+  deploy:
+    machine:
+      image: ubuntu-2004:202107-02
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - 37:71:71:a7:be:4f:9b:01:9f:b7:9d:08:eb:fb:ae:04
+      - run: ssh $VPS_USER@$VPS_IP deploy.sh
 
 workflows:
   kmas-service:
     jobs:
-      - build-and-push-image
+      - build-push
+      - deploy:
+          requires:
+            - build-push
