@@ -15,13 +15,12 @@ jobs:
           registry-id: AWS_REGISTRY_ID
           repo: $AWS_REPO_NAME
   deploy:
-    machine:
-      image: ubuntu-2004:202107-02
+    machine: true
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - 37:71:71:a7:be:4f:9b:01:9f:b7:9d:08:eb:fb:ae:04
+            - $VPS_FINGERPRINTS
       - run: ssh $VPS_USER@$VPS_IP ./deploy.sh
 
 workflows:
