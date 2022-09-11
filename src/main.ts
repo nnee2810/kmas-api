@@ -7,7 +7,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
   app.enableCors({
-    origin: process.env.APP_URL,
+    origin: function (origin, callback) {
+      if ([process.env.APP_URL].indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error("Not allowed by CORS"))
+      }
+    },
   })
   app.use(helmet())
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
