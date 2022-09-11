@@ -3,6 +3,10 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@8.1.2
 
+on:
+  push:
+    branches: [prod]
+
 jobs:
   build:
     executor: aws-ecr/default
@@ -20,8 +24,8 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - $AWS_EC2_FINGERPRINTS
-      - run: ssh $AWS_EC2_USER@$AWS_EC2_IP 'cd kmas-service && ./deploy.sh'
+            - $SSH_FINGERPRINTS
+      - run: ssh $SSH_USER@$SSH_IP 'cd kmas-service && ./deploy.sh'
 
 workflows:
   build-and-deploy:
