@@ -12,6 +12,7 @@ async function bootstrap() {
     },
   })
 
+  app.enableCors()
   app.use(helmet())
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
 

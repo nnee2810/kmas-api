@@ -20,7 +20,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - $SSH_FINGERPRINTS
-      - run: ssh $SSH_USER@$SSH_IP 'cd kmas-service && ./deploy.sh'
+      - run: ssh $SSH_USER@$SSH_IP 'cd kmas-api && ./deploy.sh'
 
 workflows:
   build-and-deploy:
