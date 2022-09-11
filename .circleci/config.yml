@@ -3,10 +3,6 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@8.1.2
 
-on:
-  push:
-    branches: [prod]
-
 jobs:
   build:
     executor: aws-ecr/default
@@ -30,7 +26,11 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - prod
       - deploy:
           requires:
             - build
