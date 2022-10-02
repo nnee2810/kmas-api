@@ -1,7 +1,7 @@
 import * as moment from "moment"
 import xlsx from "node-xlsx"
-import { Lesson } from "../interfaces/Lesson"
-import { Student } from "../interfaces/Student"
+import { Lesson } from "../interfaces/lesson.interface"
+import { Student } from "../interfaces/student.interface"
 
 const shiftTime = [
   [

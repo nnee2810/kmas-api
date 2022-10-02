@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/swagger": "^6.1.2",
     "@types/node-xlsx": "^0.15.3",
     "axios": "^0.26.0",
     "axios-cookiejar-support": "^2.0.3",
@@ -34,6 +36,7 @@
     "csurf": "^1.11.0",
     "env-cmd": "^10.1.0",
     "helmet": "^5.1.1",
+    "joi": "^17.6.2",
     "moment": "^2.29.1",
     "node-xlsx": "^0.21.0",
     "query-string": "^7.1.1",

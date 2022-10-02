@@ -1,8 +1,10 @@
 import { Body, Controller, Post, UnauthorizedException } from "@nestjs/common"
+import { ApiTags } from "@nestjs/swagger"
 import { GetLessonsDto } from "./dto/get-lessons.dto"
-import { Student } from "./interfaces/Student"
+import { Student } from "./interfaces/student.interface"
 import { LessonsService } from "./lessons.service"
 
+@ApiTags("lessons")
 @Controller("lessons")
 export class LessonsController {
   constructor(private lessonsService: LessonsService) {}

@@ -1,4 +1,4 @@
-import { Lesson } from "./Lesson"
+import { Lesson } from "./lesson.interface"
 
 export interface Student {
   profile: {

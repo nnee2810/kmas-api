@@ -1,9 +1,9 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common"
 import * as cheer from "cheerio"
 import * as qs from "query-string"
-import { KMA_API } from "src/configs/network"
+import { KMA_API } from "src/configs/api"
 import { GetLessonsDto } from "./dto/get-lessons.dto"
-import { Student } from "./interfaces/Student"
+import { Student } from "./interfaces/student.interface"
 import { getLessons } from "./utils/getLessons"
 
 @Injectable()

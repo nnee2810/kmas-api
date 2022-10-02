@@ -1,7 +1,7 @@
 import * as cheer from "cheerio"
 import * as qs from "query-string"
-import { KMA_API } from "src/configs/network"
-import { Student } from "../interfaces/Student"
+import { KMA_API } from "src/configs/api"
+import { Student } from "../interfaces/student.interface"
 import { parseExcelFile } from "./parseExcelFile"
 
 export async function getLessons(): Promise<Student> {
