@@ -9,10 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build the Docker image
 
     steps:
       - uses: actions/checkout@v3
-      - name: Build the Docker image
       - run: |
           docker build . -t kmas-api
           echo ${{secret.DOCKER_PASSWORD}} | docker login -u ${{secret.DOCKER_USERNAME}}
