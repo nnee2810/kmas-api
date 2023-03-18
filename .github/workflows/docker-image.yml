@@ -2,19 +2,17 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "prod" ]
+    branches: ["prod"]
   pull_request:
-    branches: [ "prod" ]
+    branches: ["prod"]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-    - run: docker build . -t kmas-api
-    - run: echo ${{secret.DOCKER_PASSWORD}} | docker login -u ${{secret.DOCKER_USERNAME}}
-    - run: docker push nnee2810/kmas-api
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+      - run: docker build . -t kmas-api
+      - run: echo ${{secret.DOCKER_PASSWORD}} | docker login -u ${{secret.DOCKER_USERNAME}}
+      - run: docker push nnee2810/kmas-api
