@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Deploy
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build and push docker image
+    name: Build
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -18,7 +18,7 @@ jobs:
           docker push nnee2810/kmas-api
   deploy:
     runs-on: ubuntu-latest
-    name: Pull and deploy docker image
+    name: Deploy
     steps:
       - uses: appleboy/ssh-action@v0.1.8
         with:
