@@ -1,7 +1,7 @@
-version: "3.8"
+version: "3.9"
 services:
-  service:
-    image: 526510891582.dkr.ecr.ap-southeast-1.amazonaws.com/kmas-api:latest
+  api:
+    image: nnee2810/kmas-api
     restart: always
     ports:
-      - "3000:3000"
+      - 80:3000
