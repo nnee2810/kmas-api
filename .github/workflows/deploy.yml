@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ["prod"]
+  pull_request:
+    branches: ["prod"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and push docker image
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          docker build . -t nnee2810/kmas-api
+          echo ${{secret.DOCKER_PASSWORD}} | docker login -u ${{secret.DOCKER_USERNAME}}
+          docker push nnee2810/kmas-api
+  deploy:
+    runs-on: ubuntu-latest
+    name: Pull and deploy docker image
+    steps:
+      - run: |
+          ssh -i ${{secrets.VM_SSH_KEY}} ${{secrets.VM_USERNAME}}@${{secrets.VM_IP}} 'cd /kmas-api
+          | echo ${{secret.DOCKER_PASSWORD}} 
+          | docker login -u ${{secret.DOCKER_USERNAME}}
+          | docker compose down
+          | docker compose up -d'
+          
