@@ -45,6 +45,6 @@ jobs:
             cd /kmas-api
             docker load -i kmas-api.tar
             docker compose down
-            docker-compose up -d
+            docker compose up -d
             rm kmas-api.*
             exit
