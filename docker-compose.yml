@@ -2,6 +2,8 @@ version: "3.9"
 services:
   api:
     image: nnee2810/kmas-api
-    restart: always
+    restart: unless-stopped
+    env_file:
+      - .prod.env
     ports:
-      - 80:3000
+      - 80:${PORT}
