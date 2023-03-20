@@ -43,6 +43,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd /kmas-api
+            unzip kmas-api.zip
             docker load -i kmas-api.tar
             docker compose down
             docker compose up -d
