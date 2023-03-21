@@ -4,6 +4,6 @@ services:
     image: nnee2810/kmas-api
     restart: unless-stopped
     env_file:
-      - .prod.env
+      - PORT=${PORT}
     ports:
       - 80:${PORT}
