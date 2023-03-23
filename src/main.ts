@@ -4,10 +4,11 @@ import { NestFactory } from "@nestjs/core"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 import helmet from "helmet"
 import { AppModule } from "./app.module"
+import { EnvPayload } from "./interfaces/env-payload.interface"
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
-  const configService = app.get(ConfigService)
+  const configService: ConfigService<EnvPayload> = app.get(ConfigService)
   const port = configService.get("PORT")
 
   app.enableCors()
