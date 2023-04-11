@@ -22,10 +22,10 @@
     "commit": "git-cz"
   },
   "dependencies": {
-    "@nestjs/common": "^8.0.0",
+    "@nestjs/common": "^9.4.0",
     "@nestjs/config": "^2.2.0",
-    "@nestjs/core": "^9.0.5",
-    "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/core": "^9.4.0",
+    "@nestjs/platform-express": "^9.4.0",
     "@nestjs/swagger": "^6.1.2",
     "@types/node-xlsx": "^0.15.3",
     "axios": "^0.26.0",
