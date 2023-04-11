@@ -7,3 +7,4 @@ services:
       - PORT=${PORT}
     ports:
       - 80:${PORT}
+      - 443:${PORT}
