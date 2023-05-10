@@ -18,6 +18,6 @@ WORKDIR /app
 
 COPY --from=build /app/node_modules /node_modules
 COPY --from=build /app/dist /dist
-COPY .prod.env package.json /
+COPY .env.prod package.json /
 
 CMD ["yarn", "start:prod"]
