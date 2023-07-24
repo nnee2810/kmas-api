@@ -7,7 +7,10 @@ import { AppModule } from "./app.module"
 import { EnvPayload } from "./interfaces/env-payload.interface"
 
 async function bootstrap() {
-  let aaa
+  let str: string
+  str = 1
+  console.log(str)
+
   const app = await NestFactory.create(AppModule)
   const configService: ConfigService<EnvPayload> = app.get(ConfigService)
   const port = configService.get("PORT")
