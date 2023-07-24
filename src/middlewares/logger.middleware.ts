@@ -13,7 +13,7 @@ export class LoggerMiddleware implements NestMiddleware {
 
     response.on("finish", () => {
       const { statusCode } = response
-      let log = `${request.method} ${request.url} ${statusCode} - ${
+      const log = `${request.method} ${request.url} ${statusCode} - ${
         Date.now() - requestStart
       } ms - ${request.headers["user-agent"]}`
 

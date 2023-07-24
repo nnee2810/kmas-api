@@ -61,7 +61,7 @@ function getAllDate(rangeDate: string, day: string): string[] {
     .add(+day - 2, "d")
     .unix()
 
-  let endTime = moment(endDate).unix()
+  const endTime = moment(endDate).unix()
   while (timeLine <= endTime) {
     result.push(moment(timeLine * 1000).toISOString())
     timeLine += 7 * 24 * 60 * 60
