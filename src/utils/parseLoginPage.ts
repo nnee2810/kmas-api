@@ -7,12 +7,12 @@ export const parseInitialFormData = ($: CheerioAPI) => {
 
   const data = {}
 
-  input.each((i, elem) => {
+  input.each((_, elem) => {
     if ($(elem).attr("name"))
       data[$(elem).attr("name")] = $(elem).attr("value") || ""
   })
 
-  select.each((i, elem) => {
+  select.each((_, elem) => {
     if ($(elem).attr("name"))
       data[$(elem).attr("name")] = $(elem)
         .find($('[selected="selected"]'))
@@ -26,8 +26,8 @@ export const parseSelector = ($: CheerioAPI) => {
   const form = $("form")
   const select = form.find("select")
 
-  select.each((i, elem) => {
-    const options = $(elem).find($("option[selected]"))[0]
+  select.each((_, elem) => {
+    let options = $(elem).find($("option[selected]"))[0]
     data[$(elem).attr("name")] =
       (options && $(options).attr("value")) || undefined
   })

@@ -9,14 +9,15 @@ export class LoggerMiddleware implements NestMiddleware {
   constructor(@Inject(WINSTON_MODULE_PROVIDER) private logger: Logger) {}
 
   use(request: Request, response: Response, next: NextFunction) {
-    const requestStart = Date.now()
+    const startedAt = Date.now()
 
     response.on("finish", () => {
+      const { url, method, headers } = request
       const { statusCode } = response
-      const log = `${request.method} ${request.url} ${statusCode} - ${
-        Date.now() - requestStart
-      } ms - ${request.headers["user-agent"]}`
 
+      const log = `${method} ${url} ${statusCode} - ${
+        Date.now() - startedAt
+      } ms - ${headers["user-agent"]}`
       this.logger.info(log)
 
       if (statusCode >= 200 && statusCode < 300) signale.success(log)
