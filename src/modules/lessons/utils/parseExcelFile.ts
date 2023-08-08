@@ -94,6 +94,8 @@ export function parseExcelFile(file: ArrayBuffer): Student {
       fullName: sheet[5][2],
       studentCode: sheet[5][5],
     },
-    lessons,
+    lessons: lessons.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+    ),
   }
 }
